@@ -9,7 +9,6 @@ jobs:
         runs-on: ubuntu-latest
         container:
           image: node:18
-          #run: cd~/Download/ #Ну по идее, так в докере работает
          # env:
            #   NODE_ENV: development
        #   ports:
@@ -20,9 +19,9 @@ jobs:
         steps: 
              # -uses: Action/testing
             - name: installdeb
-              run: #RUN cd ~/Download/ # По идее должен переходить в директорию, где установлен файл
-                   RUN sudo dpkg -i file.dpb
-                   RUN sudo apt-get -f install
+              run: 
+                   sudo dpkg -i file.dpb
+                    sudo apt-get -f install
 
 
     Cijob2:
@@ -32,7 +31,6 @@ jobs:
         steps: 
              # -uses: Action/testing
             - name: installrpm
-              run: RUN yum -y install yum-utils
-                      RUN yum -y install python-setuptools
-                      RUN yum install -y xyz.rpm
+              run:  sudo yum -y install yum-utils
+                    sudo yum install -y xyz.rpm
         
