@@ -9,6 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         container:
           image: node:18
+          #run: cd~/Download/ #Ну по идее, так в докере работает
          # env:
            #   NODE_ENV: development
        #   ports:
@@ -19,7 +20,7 @@ jobs:
         steps: 
              # -uses: Action/testing
             - name: installdeb
-              run: #cd ~/Download/ # Нужно ли переходить в папку внутри контейнера, выяснить!
+              run: #RUN cd ~/Download/ # По идее должен переходить в директорию, где установлен файл
                    RUN sudo dpkg -i file.dpb
                    RUN sudo apt-get -f install
 
