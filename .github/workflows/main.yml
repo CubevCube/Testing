@@ -1,25 +1,21 @@
 name: CI
 on: 
 # События, которые запускают jobs
-    commit_comment:
-      branches: ["main"]
+    push:
+      branches: [ "main" ]
+    pull_request:
+      branches: [ "main" ]
 jobs:
 # jobs запускаются параллельно, если не указана последовательность
     Cijob1:
         runs-on: ubuntu-latest
         container:
           image: node:18
-         # env:
-           #   NODE_ENV: development
-       #   ports:
-       #       - 80
-       #   volumes:
-       #       - my_docker_volume:/volume_mount
-      #    options: --cpus 1
         steps: 
-             # -uses: Action/testing
+            - uses: action/checkout@v4
             - name: installdeb
-              run: 
+              run: |
+                  curl -o file.dpb ссылка
                    sudo dpkg -i file.dpb
                     sudo apt-get -f install
 
@@ -29,8 +25,10 @@ jobs:
         container:
           image: node:19
         steps: 
-             # -uses: Action/testing
-            - name: installrpm
-              run:  sudo yum -y install yum-utils
+              - uses: action/checkout@v4
+              - name: installrpm
+                run: | 
+                    sudo yum -y install yum-utils
+                    curl -o xyz.rpm ссылка
                     sudo yum install -y xyz.rpm
         
