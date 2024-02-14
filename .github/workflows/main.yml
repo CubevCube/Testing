@@ -13,10 +13,12 @@ jobs:
           image: node:18
         steps: 
             - uses: action/checkout@v4
+              with:
+                  sparse-checkout: |
+                    workflows
             - name: installdeb
               run: |
-                  curl -o file.dpb ссылка
-                   sudo dpkg -i file.dpb
+                   sudo dpkg -i test1.dpb
                     sudo apt-get -f install
 
 
@@ -26,9 +28,11 @@ jobs:
           image: node:19
         steps: 
               - uses: action/checkout@v4
+                with:
+                  sparse-checkout: |
+                    workflows
               - name: installrpm
                 run: | 
                     sudo yum -y install yum-utils
-                    curl -o xyz.rpm ссылка
-                    sudo yum install -y xyz.rpm
+                    sudo yum install -y test2.rpm
         
