@@ -16,23 +16,50 @@ jobs:
               with:
                   sparse-checkout: |
                     workflows
-            - name: installdeb
-              run: |
-                   sudo dpkg -i test1.dpb
-                    sudo apt-get -f install
+            - name: install gcc
+              run: sudo apt install gcc -y
 
+            - name: build package
+              run: |
+                  ls -l 
+                  dpkg-deb --build ./source/package    
+
+          # Загрузка собранного пакета из этой джобы и передача его в следующую джобу
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: package
+                path: source/package.deb
+
+            - name: isntall package
+              run: sudo apt-get install ./source/package.deb
+
+            - name: test package
+              run: buildpackage
 
     Cijob2:
-        runs-on: oracle-latest
-        container:
-          image: node:19
-        steps: 
-              - uses: action/checkout@v4
+      # В случае успеха первой джобы запустится выполнение данной джобы
+          needs: [Cijob1]
+          runs-on: ubuntu-latest
+          steps:
+              - name: doing smth
+                run: uptime
+       
+          # Загрузка пакета из предыдущей джобы
+              - name: Download artifact
+                uses: actions/download-artifact@v4
                 with:
-                  sparse-checkout: |
-                    workflows
-              - name: installrpm
+                  name: package
+
+              - name: a few jobs
                 run: | 
-                    sudo yum -y install yum-utils
-                    sudo yum install -y test2.rpm
-        
+                  ls -l
+                  mkdir ${{env.directory}}
+                  cd ${{env.directory}}
+                  pwd
+                  
+              - name: isntall/test package
+                run: | 
+                  sudo apt-get install ./package.deb
+                  echo " "
+                  buildpackage
